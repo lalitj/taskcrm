@@ -9,6 +9,9 @@ $factory->define(App\Models\Comment::class, function (Faker $faker) {
         'user_id' => 1,
         'task_id' => null,
         'type'=>null,
+        'priority' => 10,
+        'status' => 100,
+
         
     ];
 });

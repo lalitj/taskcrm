@@ -16,7 +16,21 @@
           <text-input v-model="form.task_id" :error="form.errors.task_id" class="pr-6 pb-8 w-full lg:w-1/2" label="Task_id" />
           <text-input v-model="form.assigned_user_id" :error="form.errors.assigned_user_id" class="pr-6 pb-8 w-full lg:w-1/2" label="Assigned_user_id" />
           <text-input v-model="form.type" :error="form.errors.type" class="pr-6 pb-8 w-full lg:w-1/2" label="Type" />
-        
+          
+          <select-input v-model="form.priority" :error="form.errors.priority" class="pr-6 pb-8 w-full lg:w-1/2" label="Priority">
+            <option :value="null" />
+            <option value="10">Low</option>
+            <option value="20">Normal</option>
+            <option value="30">High</option>
+            <option value="40">Urgent</option>
+          </select-input>
+
+          <select-input v-model="form.status" :error="form.errors.status" class="pr-6 pb-8 w-full lg:w-1/2" label="Status">
+            <option :value="null" />
+            <option value="100">Pending</option>
+            <option value="200">Complete</option>
+          </select-input>
+
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center">
           <loading-button :loading="form.processing" class="btn-indigo" type="submit">Create Comment</loading-button>
@@ -55,6 +69,8 @@ export default {
         comment_id: null,
         project_id: null,
         team_id: null,
+        priority: null,
+        status: null,
       }),
     }
   },
