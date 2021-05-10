@@ -36,7 +36,7 @@ class Account extends Model
         return $this->hasMany(Followup::class);
     }
 
-
+    
 
     public function restaurants()
     {
@@ -62,11 +62,6 @@ class Account extends Model
     public function projects()
     {
         return $this->hasMany(Project::class);
-    }
-
-    public function issues()
-    {
-        return $this->hasMany(Issue::class);
     }
 
     public function addresses()
