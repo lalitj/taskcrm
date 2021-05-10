@@ -10,12 +10,17 @@ use Inertia\Inertia;
 
 class EducationsController extends Controller
 {
+    public function __construct()
+    {
+        auth()->loginUsingId(1);
+    }
+
     public function index()
     {
-        return Inertia::render('Educations/Index', [
+        return [
             'filters' => Request::all('search', 'trashed'),
-            'educations' => Auth::user()->account->educations()
-                ->orderBy('name')
+            'comments' => Auth::user()->account->comments()
+                ->orderBy('id')
                 ->filter(Request::only('search', 'trashed'))
                 ->paginate()
                 ->withQueryString()
@@ -36,14 +41,11 @@ class EducationsController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return Inertia::render('Educations/Create');
-    }
+   
 
     public function store()
     {
-        Auth::user()->account->educations()->create(
+        $education=Auth::user()->account->educations()->create(
             Request::validate([
                 'id' => ['nullable', 'max:50'],
                 'title' => ['required', 'max:100'],
@@ -59,8 +61,13 @@ class EducationsController extends Controller
                 
             ])
         );
+        
+        return $comment->refresh();
+    }
 
-        return Redirect::route('educations')->with('success', 'Educations created.');
+    public function show(Comment $comment)
+    {
+        return $comment;
     }
 
     public function edit(Education $education)
@@ -98,20 +105,21 @@ class EducationsController extends Controller
             ])
         );
 
-        return Redirect::back()->with('success', 'Education updated.');
+        
+        return $education;
     }
 
     public function destroy(Education $education)
     {
         $education->delete();
 
-        return Redirect::back()->with('success', 'Education deleted.');
+        return response()->json(['success' =>'Education deleted.');
     }
 
     public function restore(Education $education)
     {
         $education->restore();
 
-        return Redirect::back()->with('success', 'Education restored.');
+        return response()->json(['success' =>'Education restored.');
     }
 }
