@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Api\Controllers;
 
 use App\Models\Bank;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +10,11 @@ use Inertia\Inertia;
 
 class BanksController extends Controller
 {
+    public function __construct()
+    {
+        auth()->loginUsingId(1);
+    }
+
     public function index()
     {
         return Inertia::render('Banks/Index', [
@@ -34,10 +39,7 @@ class BanksController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return Inertia::render('Banks/Create');
-    }
+    
 
     public function store()
     {
@@ -54,8 +56,15 @@ class BanksController extends Controller
             ])
         );
 
-        return Redirect::route('banks')->with('success', 'Banks created.');
+
+        return $bank->refresh();
     }
+
+    public function show(Bank $bank)
+    {
+        return $bank;
+    }
+ 
 
     public function edit(Bank $bank)
     {
@@ -67,7 +76,7 @@ class BanksController extends Controller
                 'account_number' => $bank -> account_number,
                 'ifsc_code' => $bank -> ifsc_code,
                 'bank_name' =>$bank->bank_name,
-                      'email'=> $bank ->email,
+                'email'=> $bank ->email,
                 'deleted_at' => $bank -> deleted_at,
                 ],
         ]);
@@ -89,20 +98,21 @@ class BanksController extends Controller
         
         );
 
-        return Redirect::back()->with('success', 'Bank updated.');
+        
+        return $task;
     }
 
     public function destroy(Bank $bank)
     {
         $bank->delete();
 
-        return Redirect::back()->with('success', 'Bank deleted.');
-    }
+        return response()->json(['success' => 'Bank restored.']);
+   }
 
     public function restore(Bank $bank)
     {
         $bank->restore();
 
-        return Redirect::back()->with('success', 'Bank restored.');
-    }
+        return response()->json(['success' => 'Bank restored.']);
+   }
 }
