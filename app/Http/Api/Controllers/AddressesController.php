@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Api\Controllers;
 use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -9,9 +9,14 @@ use Inertia\Inertia;
 
 class AddressesController extends Controller
 {
+    public function __construct()
+    {
+        auth()->loginUsingId(1);
+    }
+
     public function index()
     {
-        return Inertia::render('Addresses/Index', [
+        return [
             'filters' => Request::all('search', 'trashed'),
             'addresses' => Auth::user()->account->addresses()
                 ->orderBy('name')
@@ -32,17 +37,14 @@ class AddressesController extends Controller
                         'deleted_at' => $address -> deleted_at,
                     ];
                 }),
-        ]);
+        ];
     }
 
-    public function create()
-    {
-        return Inertia::render('Addresses/Create');
-    }
 
+   
     public function store()
     {
-        Auth::user()->account->addresses()->create(
+        $address=Auth::user()->account->addresses()->create(
             Request::validate([
                 'name' => ['required', 'max:100'],
                 'phone' => ['nullable', 'max:20'],
@@ -52,12 +54,20 @@ class AddressesController extends Controller
                 'region' => ['nullable', 'max:50'],
                 'country' => ['nullable', 'max:50'],
                 'postal_code' => ['nullable', 'max:25'],
-            ])
+            
+            
+                ])
         );
 
-        return Redirect::route('addresses')->with('success', 'Addresses created.');
+
+        return $address->refresh();
     }
 
+    public function show(Address $address)
+    {
+        return $address;
+    }
+ 
     public function edit(Address $address)
     {
         return Inertia::render('Addresses/Edit', [
@@ -92,20 +102,18 @@ class AddressesController extends Controller
             ])
         );
 
-        return Redirect::back()->with('success', 'Address updated.');
-    }
+        return $address;
+     }
 
     public function destroy(Address $address)
     {
         $address->delete();
-
-        return Redirect::back()->with('success', 'Address deleted.');
+        return response()->json(['success' => 'Address deleted.']);
     }
 
     public function restore(Address $address)
     {
         $address->restore();
-
-        return Redirect::back()->with('success', 'Address restored.');
-    }
+        return response()->json(['success' => 'Address restored.']);
+     }
 }

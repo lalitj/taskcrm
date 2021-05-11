@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\AddressesController;
+use App\Http\Api\Controllers\AddressesController;
 use App\Http\Api\Controllers\BanksController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\BudgetsController;
@@ -43,5 +43,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('task', TasksController::class);
 Route::put('task/{task}/restore', [TasksController::class, 'restore']);
 
-Route::resource('bank', Bankscontroller::class);
-Route::put('bank/{bank}/restore', [Bankscontroller::class, 'restore']);
+Route::resource('bank', AddressesController::class);
+Route::put('bank/{bank}/restore', [AddressesController::class, 'restore']);
+
+Route::resource('address', AddressesController::class);
+Route::put('address/{address}/restore', [AddressesController::class, 'restore']);
