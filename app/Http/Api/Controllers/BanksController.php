@@ -17,7 +17,7 @@ class BanksController extends Controller
 
     public function index()
     {
-        return Inertia::render('Banks/Index', [
+        return [
             'filters' => Request::all('search', 'trashed'),
             'banks' => Auth::user()->account->banks()
                 ->orderBy('name')
@@ -36,14 +36,14 @@ class BanksController extends Controller
                         'deleted_at' => $bank -> deleted_at,
                     ];
                 }),
-        ]);
+        ];
     }
 
     
 
     public function store()
     {
-        Auth::user()->account->banks()->create(
+        $bank=Auth::user()->account->banks()->create(
             Request::validate([
                 'name' => ['required', 'max:100'],
                 'phone' => ['nullable', 'max:50'],
@@ -99,14 +99,14 @@ class BanksController extends Controller
         );
 
         
-        return $task;
+        return $bank;
     }
 
     public function destroy(Bank $bank)
     {
         $bank->delete();
 
-        return response()->json(['success' => 'Bank restored.']);
+        return response()->json(['success' => 'Bank deleted.']);
    }
 
     public function restore(Bank $bank)
