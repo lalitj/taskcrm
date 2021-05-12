@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Profile;
 use App\Models\Budget;
 use App\Models\Contact;
+use App\Models\Daily;
 use App\Models\Experience;
 use App\Models\Organization;
 use App\Models\Project;
@@ -45,6 +46,9 @@ class DatabaseSeeder extends Seeder
         $tasks = factory(Task::class, 100)
             ->create(['account_id' => $account->id]);
 
+            $dailys = factory(Daily::class, 100)
+                ->create(['account_id' => $account->id]);
+
             $issues = factory(Issue::class, 100)
             ->create(['account_id' => $account->id]);
 
@@ -78,6 +82,11 @@ class DatabaseSeeder extends Seeder
 
         $banks = factory(Bank::class, 100)
             ->create(['account_id' => $account->id]);
+
+
+
+            $dailys = factory(Daily::class, 100)
+                ->create(['account_id' => $account->id]);
 
         $clients = factory(Client::class, 100)
             ->create(['account_id' => $account->id]);

@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\BudgetsController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\DailysController;
 use App\Http\Controllers\ExperiencesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
@@ -136,6 +137,36 @@ Route::get('clients/{client}/edit', [ClientsController::class, 'edit'])
                 Route::put('issues/{issue}/restore', [IssuesController::class, 'restore'])
                             ->name('issues.restore')
                             ->middleware('auth');
+
+// Daily
+
+                            Route::get('dailys', [DailysController::class, 'index'])
+                                ->name('dailys')
+                                ->middleware('remember', 'auth');
+
+                            Route::get('dailys/create', [DailysController::class, 'create'])
+                                ->name('dailys.create')
+                                ->middleware('auth');
+
+                            Route::post('dailys', [DailysController::class, 'store'])
+                                ->name('dailys.store')
+                                ->middleware('auth');
+
+                            Route::get('dailys/{daily}/edit', [DailysController::class, 'edit'])
+                                ->name('dailys.edit')
+                                ->middleware('auth');
+
+                            Route::put('dailys/{daily}', [DailysController::class, 'update'])
+                                ->name('dailys.update')
+                                ->middleware('auth');
+
+                            Route::delete('dailys/{daily}', [DailysController::class, 'destroy'])
+                                ->name('dailys.destroy')
+                                ->middleware('auth');
+
+                            Route::put('dailys/{daily}/restore', [DailysController::class, 'restore'])
+                                ->name('dailys.restore')
+                                ->middleware('auth');
 
 
 // Dashboard
