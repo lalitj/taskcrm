@@ -21,14 +21,18 @@ class ContactsController extends Controller
                 ->filter(Request::only('search', 'trashed'))
                 ->paginate(10)
                 ->withQueryString()
-                ->through(fn ($contact) => [
-                    'id' => $contact->id,
-                    'name' => $contact->name,
-                    'phone' => $contact->phone,
-                    'city' => $contact->city,
-                    'deleted_at' => $contact->deleted_at,
-                    'organization' => $contact->organization ? $contact->organization->only('name') : null,
-                ]),
+                ->through(function ($contact) {
+                    return [
+                        'id' => $contact->id,
+                        'name' => $contact->name,
+                        'phone' => $contact->phone,
+                        'email' => $contact->email,
+                        'city' => $contact->city,
+                         'organization' => $contact->organization ? $contact->organization->only('name') : null,
+                         'deleted_at' => $contact->deleted_at,
+
+                        ];
+                }),
         ]);
     }
 
@@ -71,17 +75,13 @@ class ContactsController extends Controller
         return Inertia::render('Contacts/Edit', [
             'contact' => [
                 'id' => $contact->id,
-                'first_name' => $contact->first_name,
-                'last_name' => $contact->last_name,
-                'organization_id' => $contact->organization_id,
-                'email' => $contact->email,
+                'name' => $contact->name,
                 'phone' => $contact->phone,
-                'address' => $contact->address,
+                'email' => $contact->email,
                 'city' => $contact->city,
-                'region' => $contact->region,
-                'country' => $contact->country,
-                'postal_code' => $contact->postal_code,
+                'organization' => $contact->organization ? $contact->organization->only('name') : null,
                 'deleted_at' => $contact->deleted_at,
+
             ],
             'organizations' => Auth::user()->account->organizations()
                 ->orderBy('name')

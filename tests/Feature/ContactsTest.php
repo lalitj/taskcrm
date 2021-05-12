@@ -56,30 +56,16 @@ class ContactsTest extends TestCase
     {
         $this->actingAs($this->user)
             ->get('/contacts')
-            ->assertInertia(fn ($assert) => $assert
-                ->component('Contacts/Index')
-                ->has('contacts.data', 2)
-                ->has('contacts.data.0', fn ($assert) => $assert
-                    ->where('id', 1)
-                    ->where('name', 'Martin Abbott')
-                    ->where('phone', '555-111-2222')
-                    ->where('city', 'Murphyland')
-                    ->where('deleted_at', null)
-                    ->has('organization', fn ($assert) => $assert
-                        ->where('name', 'Example Organization Inc.')
-                    )
-                )
-                ->has('contacts.data.1', fn ($assert) => $assert
-                    ->where('id', 2)
-                    ->where('name', 'Lynn Kub')
-                    ->where('phone', '555-333-4444')
-                    ->where('city', 'Woodstock')
-                    ->where('deleted_at', null)
-                    ->has('organization', fn ($assert) => $assert
-                        ->where('name', 'Example Organization Inc.')
-                    )
-                )
-            );
+            ->assertStatus(200)
+            ->assertPropCount('contacts.data', 5)
+            ->assertPropValue('contacts.data', function ($contacts) {
+                $this->assertEquals(
+                    ['id', 'name', 'phone','email', 'city',
+                     'organization', 'deleted_at',
+                    ],
+                    array_keys($contacts[0])
+                );
+            });
     }
 
     public function test_can_search_for_contacts()
