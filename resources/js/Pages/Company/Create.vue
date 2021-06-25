@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="mb-8 font-bold text-3xl">
-      <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('organizations')">Organizations</inertia-link>
+      <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('companys')">Companys</inertia-link>
       <span class="text-indigo-400 font-medium">/</span> Create
     </h1>
     <div class="bg-white rounded-md shadow overflow-hidden max-w-3xl">
@@ -21,7 +21,7 @@
           <text-input v-model="form.postal_code" :error="form.errors.postal_code" class="pr-6 pb-8 w-full lg:w-1/2" label="Postal code" />
         </div>
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex justify-end items-center">
-          <loading-button :loading="form.processing" class="btn-indigo" type="submit">Create Organization</loading-button>
+          <loading-button :loading="form.processing" class="btn-indigo" type="submit">Create Company</loading-button>
         </div>
       </form>
     </div>
@@ -35,7 +35,7 @@ import SelectInput from '@/Shared/SelectInput'
 import LoadingButton from '@/Shared/LoadingButton'
 
 export default {
-  metaInfo: { title: 'Create Organization' },
+  metaInfo: { title: 'Create Company' },
   components: {
     LoadingButton,
     SelectInput,
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     store() {
-      this.form.post(this.route('organizations.store'))
+      this.form.post(this.route('companys.store'))
     },
   },
 }

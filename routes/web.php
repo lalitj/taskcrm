@@ -467,7 +467,7 @@ Route::get('addresses/{address}/edit', [AddressesController::class, 'edit'])
     ->name('addresses.edit')
     ->middleware('auth');
 
-Route::put('addresses/{addresses}/update', [AddressesController::class, 'update'])
+Route::put('addresses/{address}/update', [AddressesController::class, 'update'])
     ->name('addresses.update')
     ->middleware('auth');
 

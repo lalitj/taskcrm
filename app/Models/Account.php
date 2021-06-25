@@ -9,9 +9,9 @@ class Account extends Model
         return $this->hasMany(User::class);
     }
 
-    public function organizations()
+    public function companys()
     {
-        return $this->hasMany(Organization::class);
+        return $this->hasMany(Company::class);
     }
     public function budgets()
     {

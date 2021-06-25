@@ -8,7 +8,7 @@ use App\Models\Profile;
 use App\Models\Budget;
 use App\Models\Contact;
 use App\Models\Experience;
-use App\Models\Organization;
+use App\Models\Company;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\Followup;
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
 
         factory(User::class, 5)->create(['account_id' => $account->id]);
 
-        $organizations = factory(Organization::class, 100)
+        $companys = factory(Company::class, 100)
             ->create(['account_id' => $account->id]);
 
         $experiences = factory(Experience::class, 100)
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         $tasks = factory(Task::class, 100)
             ->create(['account_id' => $account->id]);
 
-            $issues = factory(Issue::class, 100)
+        $issues = factory(Issue::class, 100)
             ->create(['account_id' => $account->id]);
 
         $clients = factory(Client::class, 100)
@@ -90,8 +90,8 @@ class DatabaseSeeder extends Seeder
 
         factory(Contact::class, 100)
             ->create(['account_id' => $account->id])
-            ->each(function ($contact) use ($organizations) {
-                $contact->update(['organization_id' => $organizations->random()->id]);
+            ->each(function ($contact) use ($companys) {
+                $contact->update(['company_id' => $companys->random()->id]);
             });
     }
 }

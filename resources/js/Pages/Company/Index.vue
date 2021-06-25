@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="mb-8 font-bold text-3xl">Organizations</h1>
+    <h1 class="mb-8 font-bold text-3xl">Companys</h1>
     <div class="mb-6 flex justify-between items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
         <label class="block text-gray-700">Trashed:</label>
@@ -10,9 +10,9 @@
           <option value="only">Only Trashed</option>
         </select>
       </search-filter>
-      <inertia-link class="btn-indigo" :href="route('organizations.create')">
+      <inertia-link class="btn-indigo" :href="route('companys.create')">
         <span>Create</span>
-        <span class="hidden md:inline">Organization</span>
+        <span class="hidden md:inline">Company</span>
       </inertia-link>
     </div>
     <div class="bg-white rounded-md shadow overflow-x-auto">
@@ -22,35 +22,35 @@
           <th class="px-6 pt-6 pb-4">City</th>
           <th class="px-6 pt-6 pb-4" colspan="2">Phone</th>
         </tr>
-        <tr v-for="organization in organizations.data" :key="organization.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
+        <tr v-for="company in companys.data" :key="company.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
           <td class="border-t">
-            <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('organizations.edit', organization.id)">
-              {{ organization.name }}
-              <icon v-if="organization.deleted_at" name="trash" class="flex-shrink-0 w-3 h-3 fill-gray-400 ml-2" />
+            <inertia-link class="px-6 py-4 flex items-center focus:text-indigo-500" :href="route('companys.edit', company.id)">
+              {{ company.name }}
+              <icon v-if="company.deleted_at" name="trash" class="flex-shrink-0 w-3 h-3 fill-gray-400 ml-2" />
             </inertia-link>
           </td>
           <td class="border-t">
-            <inertia-link class="px-6 py-4 flex items-center" :href="route('organizations.edit', organization.id)" tabindex="-1">
-              {{ organization.city }}
+            <inertia-link class="px-6 py-4 flex items-center" :href="route('companys.edit', company.id)" tabindex="-1">
+              {{ company.city }}
             </inertia-link>
           </td>
           <td class="border-t">
-            <inertia-link class="px-6 py-4 flex items-center" :href="route('organizations.edit', organization.id)" tabindex="-1">
-              {{ organization.phone }}
+            <inertia-link class="px-6 py-4 flex items-center" :href="route('companys.edit', company.id)" tabindex="-1">
+              {{ company.phone }}
             </inertia-link>
           </td>
           <td class="border-t w-px">
-            <inertia-link class="px-4 flex items-center" :href="route('organizations.edit', organization.id)" tabindex="-1">
+            <inertia-link class="px-4 flex items-center" :href="route('companys.edit', company.id)" tabindex="-1">
               <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
             </inertia-link>
           </td>
         </tr>
-        <tr v-if="organizations.data.length === 0">
-          <td class="border-t px-6 py-4" colspan="4">No organizations found.</td>
+        <tr v-if="companys.data.length === 0">
+          <td class="border-t px-6 py-4" colspan="4">No companys found.</td>
         </tr>
       </table>
     </div>
-    <pagination class="mt-6" :links="organizations.links" />
+    <pagination class="mt-6" :links="companys.links" />
   </div>
 </template>
 
@@ -64,7 +64,7 @@ import Pagination from '@/Shared/Pagination'
 import SearchFilter from '@/Shared/SearchFilter'
 
 export default {
-  metaInfo: { title: 'Organizations' },
+  metaInfo: { title: 'companys' },
   components: {
     Icon,
     Pagination,
@@ -72,7 +72,7 @@ export default {
   },
   layout: Layout,
   props: {
-    organizations: Object,
+    companys: Object,
     filters: Object,
   },
   data() {
@@ -87,7 +87,7 @@ export default {
     form: {
       handler: throttle(function() {
         let query = pickBy(this.form)
-        this.$inertia.get(this.route('organizations'), Object.keys(query).length ? query : { remember: 'forget' }, { preserveState: true })
+        this.$inertia.get(this.route('companys'), Object.keys(query).length ? query : { remember: 'forget' }, { preserveState: true })
       }, 150),
       deep: true,
     },
