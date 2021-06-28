@@ -44,11 +44,11 @@ class DocumentsController extends Controller
             Request::validate([
                 'id' => ['nullable', 'max:50'],
                 'title' => ['required', 'max:100'],
-                'customer_name' => ['nullable', 'max:300'],
-                'document_type' => ['nullable', 'max:50'],
-                'document_label' => ['nullable', 'max:150'],
-                'digit' => ['nullable', 'max:50'],
-                'length' => ['nullable', 'max:50'],
+                'customer_name' => ['required', 'max:300'],
+                'document_type' => ['required', 'max:50'],
+                'document_label' => ['required', 'max:150'],
+                'digit' => ['required', 'max:50'],
+                'length' => ['required', 'max:50'],
                
             ])
         );
@@ -78,11 +78,11 @@ class DocumentsController extends Controller
             Request::validate([
                 'id' => ['nullable', 'max:50'],
                 'title' => ['required', 'max:100'],
-                'customer_name' => ['nullable', 'max:300'],
-                'document_type' => ['nullable', 'max:50'],
-                'document_label' => ['nullable', 'max:150'],
-                'digit' => ['nullable', 'max:50'],
-                'length' => ['nullable', 'max:50'],
+                'customer_name' => ['required', 'max:300'],
+                'document_type' => ['required', 'max:50'],
+                'document_label' => ['required', 'max:150'],
+                'digit' => ['required', 'max:50'],
+                'length' => ['required', 'max:50'],
             ])
         );
 
