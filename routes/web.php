@@ -76,15 +76,15 @@ Route::get('clients/{client}/edit', [ClientsController::class, 'edit'])
     ->name('clients.edit')
     ->middleware('auth');
 
-Route::get('clients/{client}', [ClientsController::class, 'update'])
+Route::put('clients/{client}', [ClientsController::class, 'update'])
     ->name('clients.update')
     ->middleware('auth');
 
-Route::get('clients/{client}', [ClientsController::class, 'destroy'])
+Route::delete('clients/{client}', [ClientsController::class, 'destroy'])
     ->name('clients.destroy')
     ->middleware('auth');
 
-Route::get('clients/{client}/restore', [ClientsController::class, 'restore'])
+Route::put('clients/{client}/restore', [ClientsController::class, 'restore'])
     ->name('clients.restore')
     ->middleware('auth');
 
