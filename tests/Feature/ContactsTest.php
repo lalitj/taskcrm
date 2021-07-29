@@ -81,16 +81,7 @@ class ContactsTest extends TestCase
                 )
             );
 
-            ->assertStatus(200)
-            ->assertPropCount('contacts.data', 5)
-            ->assertPropValue('contacts.data', function ($contacts) {
-                $this->assertEquals(
-                    ['id', 'name', 'phone','email', 'city',
-                     'organization', 'deleted_at',
-                    ],
-                    array_keys($contacts[0])
-                );
-            });
+
     }
 
     public function test_can_search_for_contacts()
