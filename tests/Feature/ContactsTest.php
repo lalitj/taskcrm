@@ -80,6 +80,8 @@ class ContactsTest extends TestCase
                     )
                 )
             );
+
+
     }
 
     public function test_can_search_for_contacts()

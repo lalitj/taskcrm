@@ -19,19 +19,10 @@ use App\Models\Restaurant;
 use App\Models\Document;
 use App\Models\Education;
 use App\Models\Issue;
-
-use App\Models\Holiday;
-
-
 use App\Models\Leave;
 use App\Models\Holiday;
-
-
 use App\Models\OfficeRule;
-
 use App\Models\RuleCategory;
-
-
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -59,7 +50,8 @@ class DatabaseSeeder extends Seeder
         $organizations = Organization::factory(100)
             ->create(['account_id' => $account->id]);
 
-      
+
+
         $experiences = factory(Experience::class, 100)
         ->create(['account_id' => $account->id]);
 
@@ -103,7 +95,7 @@ class DatabaseSeeder extends Seeder
 
         $banks = factory(Bank::class, 100)
             ->create(['account_id' => $account->id]);
-        
+
         $officeRule = factory(OfficeRule::class, 100)
             ->create(['account_id' => $account->id]);
 
@@ -123,7 +115,7 @@ class DatabaseSeeder extends Seeder
         $holidays = factory(Holiday::class, 100)
             ->create(['account_id' => $account->id]);
 
-        
+
         $leaves = factory(Leave::class, 100)
             ->create(['account_id' => $account->id]);
 
