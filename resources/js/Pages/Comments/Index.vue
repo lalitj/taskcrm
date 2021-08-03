@@ -23,6 +23,8 @@
           <th class="px-6 pt-6 pb-4">Assigned_user__id</th>
           <th class="px-6 pt-6 pb-4">Task_id</th>
           <th class="px-6 pt-6 pb-4">Type</th>
+          <th class="px-6 pt-6 pb-4">Priority</th>
+          <th class="px-6 pt-6 pb-4">Status</th>
         </tr>
         <tr v-for="comment in comments.data" :key="comment.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
           <td class="border-t">
@@ -55,6 +57,18 @@
           <td class="border-t">
             <inertia-link class="px-6 py-4 flex items-center" :href="route('comments.edit', comment.id)" tabindex="-1">
               {{ comment.type }}
+            </inertia-link>
+          </td>
+          
+          <td class="border-t">
+            <inertia-link class="px-6 py-4 flex items-center" :href="route('comments.edit', comment.id)" tabindex="-1">
+              {{ comment.priority }}
+            </inertia-link>
+          </td>
+          
+          <td class="border-t">
+            <inertia-link class="px-6 py-4 flex items-center" :href="route('comments.edit', comment.id)" tabindex="-1">
+              {{ comment.status }}
             </inertia-link>
           </td>
 
