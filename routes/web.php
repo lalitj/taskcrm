@@ -1,5 +1,7 @@
 <?php
 
+
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AddressesController;
 use App\Http\Controllers\BanksController;
@@ -10,15 +12,21 @@ use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\ExperiencesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\IssuesController;
 use App\Http\Controllers\OrganizationsController;
+use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\FollowupsController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\RestaurantsController;
 use App\Http\Controllers\EducationsController;
+use App\Http\Controllers\HolidaysController;
+use App\Http\Controllers\LeavesController;
+use App\Http\Controllers\OfficeruleController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\RuleCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,15 +42,15 @@ use Illuminate\Support\Facades\Route;
 
 // Auth
 
-Route::get('login', [LoginController::class, 'showLoginForm'])
+Route::get('login', [AuthenticatedSessionController::class, 'create'])
     ->name('login')
     ->middleware('guest');
 
-Route::post('login', [LoginController::class, 'login'])
-    ->name('login.attempt')
+Route::post('login', [AuthenticatedSessionController::class, 'store'])
+    ->name('login.store')
     ->middleware('guest');
 
-Route::post('logout', [LoginController::class, 'logout'])
+Route::delete('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
 // Clients
@@ -63,6 +71,86 @@ Route::get('clients/{client}/edit', [ClientsController::class, 'edit'])
     ->name('clients.edit')
     ->middleware('auth');
 
+    Route::delete('clients/{client}', [ClientsController::class, 'destroy'])
+    ->name('clients.destroy')
+    ->middleware('auth');
+
+    Route::put('clients/{client}', [ClientsController::class, 'update'])
+    ->name('clients.update')
+    ->middleware('auth');
+
+
+
+// Projects
+
+    Route::get('projects', [ProjectsController::class, 'index'])
+        ->name('projects')
+        ->middleware('remember', 'auth');
+
+    Route::get('projects/create', [ProjectsController::class, 'create'])
+            ->name('projects.create')
+            ->middleware('auth');
+
+    // Route::get('projects/create', [ProjectsController::class, 'create'])
+    //     ->name('Projects.create')
+    //     ->middleware('auth');
+
+    Route::post('projects', [ProjectsController::class, 'store'])
+        ->name('projects.store')
+        ->middleware('auth');
+
+    Route::get('projects/{project}/edit', [ProjectsController::class, 'edit'])
+        ->name('projects.edit')
+        ->middleware('auth');
+
+    Route::delete('projects/{project}', [ProjectsController::class, 'destroy'])
+            ->name('projects.destroy')
+            ->middleware('auth');
+
+    Route::put('projects/{project}', [ProjectsController::class, 'update'])
+                ->name('projects.update')
+                ->middleware('auth');
+
+    Route::put('projects/{project}/restore', [ProjectsController::class, 'restore'])
+                ->name('projects.restore')
+                ->middleware('auth');
+
+
+
+// Issues
+
+                Route::get('issues', [IssuesController::class, 'index'])
+                    ->name('issues')
+                    ->middleware('remember', 'auth');
+
+                Route::get('issues/create', [IssuesController::class, 'create'])
+                        ->name('issues.create')
+                        ->middleware('auth');
+
+                // Route::get('projects/create', [ProjectsController::class, 'create'])
+                //     ->name('Projects.create')
+                //     ->middleware('auth');
+
+                Route::post('issues', [IssuesController::class, 'store'])
+                    ->name('issues.store')
+                    ->middleware('auth');
+
+                Route::get('issues/{issue}/edit', [IssuesController::class, 'edit'])
+                    ->name('issues.edit')
+                    ->middleware('auth');
+
+                Route::delete('issues/{issue}', [IssuesController::class, 'destroy'])
+                        ->name('issues.destroy')
+                        ->middleware('auth');
+
+                Route::put('issues/{issue}', [IssuesController::class, 'update'])
+                            ->name('issues.update')
+                            ->middleware('auth');
+
+                Route::put('issues/{issue}/restore', [IssuesController::class, 'restore'])
+                            ->name('issues.restore')
+                            ->middleware('auth');
+
 
 // Dashboard
 
@@ -74,7 +162,7 @@ Route::get('/', [DashboardController::class, 'index'])
 
 Route::get('users', [UsersController::class, 'index'])
     ->name('users')
-    ->middleware('remember', 'auth');
+    ->middleware('auth');
 
 Route::get('users/create', [UsersController::class, 'create'])
     ->name('users.create')
@@ -100,34 +188,136 @@ Route::put('users/{user}/restore', [UsersController::class, 'restore'])
     ->name('users.restore')
     ->middleware('auth');
 
+
+// RuleCategory
+
+Route::get('rulecategory', [RuleCategoryController::class, 'index'])
+->name('rulecategory')
+->middleware('remember', 'auth');
+
+Route::get('rulecategory/create', [RuleCategoryController::class, 'create'])
+->name('rulecategory.create')
+->middleware('auth');
+
+Route::post('rulecategory', [RuleCategoryController::class, 'store'])
+->name('rulecategory.store')
+->middleware('auth');
+
+Route::get('rulecategory/{rulecategory}/edit', [RuleCategoryController::class, 'edit'])
+->name('rulecategory.edit')
+->middleware('auth');
+
+Route::put('rulecategory/{rulecategory}', [RuleCategoryController::class, 'update'])
+->name('rulecategory.update')
+->middleware('auth');
+
+Route::delete('rulecategory/{rulecategory}', [RuleCategoryController::class, 'destroy'])
+->name('rulecategory.destroy')
+->middleware('auth');
+
+Route::put('rulecategory/{rulecategory}/restore', [RuleCategoryController::class, 'restore'])
+->name('rulecategory.restore')
+->middleware('auth');
+
 // Organizations
 
 Route::get('organizations', [OrganizationsController::class, 'index'])
     ->name('organizations')
+    ->middleware('auth');
+
+
+
+// Leaves
+
+Route::get('leaves',[LeavesController::class, 'index'])
+    ->name('leaves')
     ->middleware('remember', 'auth');
 
-Route::get('organizations/create', [OrganizationsController::class, 'create'])
-    ->name('organizations.create')
+
+Route::get('leaves/create', [LeavesController::class, 'create'])
+    ->name('leaves.create')
     ->middleware('auth');
 
-Route::post('organizations', [OrganizationsController::class, 'store'])
-    ->name('organizations.store')
+Route::post('leaves', [LeavesController::class, 'store'])
+    ->name('leaves.store')
     ->middleware('auth');
 
-Route::get('organizations/{organization}/edit', [OrganizationsController::class, 'edit'])
+Route::get('leaves/{leave}/edit', [LeavesController::class, 'edit'])
+    ->name('leaves.edit')
+    ->middleware('auth');
+
+Route::put('leaves/{leave}', [LeavesController::class, 'update'])
+    ->name('leaves.update')
+    ->middleware('auth');
+
+Route::delete('leaves/{leave}', [LeavesController::class, 'destroy'])
+    ->name('leaves.destroy')
+    ->middleware('auth');
+
+Route::put('leaves/{leave}/restore', [LeavesController::class, 'restore'])
+    ->name('leaves.restore')
+    ->middleware('auth');
+
+
+
+// Holidays
+
+Route::get('holidays', [HolidaysController::class, 'index'])
+    ->name('holidays')
+    ->middleware('remember', 'auth');
+
+Route::get('holidays/create', [HolidaysController::class, 'create'])
+    ->name('holidays.create')
+    ->middleware('auth');
+
+Route::post('holidays', [HolidaysController::class, 'store'])
+    ->name('holidays.store')
+    ->middleware('auth');
+
+Route::get('holidays/{holiday}/edit', [HolidaysController::class, 'edit'])
+    ->name('holidays.edit')
+    ->middleware('auth');
+
+Route::put('holidays/{holiday}', [HolidaysController::class, 'update'])
+    ->name('holidays.update')
+    ->middleware('auth');
+
+Route::delete('holidays/{holiday}', [HolidaysController::class, 'destroy'])
+    ->name('holidays.destroy')
+    ->middleware('auth');
+
+Route::put('holidays/{holiday}/restore', [HolidaysController::class, 'restore'])
+    ->name('holidays.restore')
+    ->middleware('auth');
+
+// Companys
+
+Route::get('companys', [CompanysController::class, 'index'])
+    ->name('companys')
+    ->middleware('remember', 'auth');
+
+Route::get('companys/create', [CompanysController::class, 'create'])
+    ->name('companys.create')
+    ->middleware('auth');
+
+Route::post('companys', [CompanysController::class, 'store'])
+    ->name('companys.store')
+    ->middleware('auth');
+
+Route::get('companys/{company}/edit', [CompanysController::class, 'edit'])
     ->name('organizations.edit')
     ->middleware('auth');
 
-Route::put('organizations/{organization}', [OrganizationsController::class, 'update'])
-    ->name('organizations.update')
+Route::put('companys/{company}', [CompanysController::class, 'update'])
+    ->name('companys.update')
     ->middleware('auth');
 
-Route::delete('organizations/{organization}', [OrganizationsController::class, 'destroy'])
-    ->name('organizations.destroy')
+Route::delete('companys/{company}', [CompanysController::class, 'destroy'])
+    ->name('companys.destroy')
     ->middleware('auth');
 
-Route::put('organizations/{organization}/restore', [OrganizationsController::class, 'restore'])
-    ->name('organizations.restore')
+Route::put('companys/{company}/restore', [CompanysController::class, 'restore'])
+    ->name('companys.restore')
     ->middleware('auth');
 
 // Tasks
@@ -158,6 +348,36 @@ Route::delete('tasks/{task}', [TasksController::class, 'destroy'])
 
 Route::put('tasks/{task}/restore', [TasksController::class, 'restore'])
     ->name('tasks.restore')
+    ->middleware('auth');
+
+// Officerule
+
+Route::get('officerule', [OfficeRuleController::class, 'index'])
+    ->name('officerule')
+    ->middleware('remember', 'auth');
+
+Route::get('officerule/create', [OfficeRuleController::class, 'create'])
+    ->name('officerule.create')
+    ->middleware('auth');
+
+Route::post('officerule', [OfficeRuleController::class, 'store'])
+    ->name('officerule.store')
+    ->middleware('auth');
+
+Route::get('officerule/{officerule}/edit', [OfficeRuleController::class, 'edit'])
+    ->name('officerule.edit')
+    ->middleware('auth');
+
+Route::put('officerule/{officerule}', [OfficeRuleController::class, 'update'])
+    ->name('officerule.update')
+    ->middleware('auth');
+
+Route::delete('officerule/{officerule}', [OfficeRuleController::class, 'destroy'])
+    ->name('officerule.destroy')
+    ->middleware('auth');
+
+Route::put('officerule/{officerule}/restore', [OfficeRuleController::class, 'restore'])
+    ->name('officerule.restore')
     ->middleware('auth');
 
 // Followups
@@ -219,7 +439,7 @@ Route::delete('comments/{comment}', [CommentsController::class, 'destroy'])
 Route::put('comments/{comment}/restore', [CommentsController::class, 'restore'])
 ->name('comments.restore')
 ->middleware('auth');
-    
+
 // Experiences
 
 Route::get('experiences', [ExperiencesController::class, 'index'])
@@ -243,14 +463,14 @@ Route::put('experiences/{experience}', [ExperiencesController::class, 'update'])
     ->middleware('auth');
 
 Route::delete('experiences/{experience}', [ExperiencesController::class, 'destroy'])
-    ->name('experiences.destroy')   
+    ->name('experiences.destroy')
     ->middleware('auth');
 
 Route::put('experiences/{experience}/restore', [ExperiencesController::class, 'restore'])
 ->name('experiences.restore')
 ->middleware('auth');
 
-    
+
 // Education
 
 Route::get('educations', [EducationsController::class, 'index'])
@@ -499,7 +719,7 @@ Route::put('budgets/{budget}/restore', [BudgetsController::class, 'restore'])
 
 Route::get('contacts', [ContactsController::class, 'index'])
     ->name('contacts')
-    ->middleware('remember', 'auth');
+    ->middleware('auth');
 
 Route::get('contacts/create', [ContactsController::class, 'create'])
     ->name('contacts.create')
@@ -533,15 +753,6 @@ Route::get('reports', [ReportsController::class, 'index'])
 
 // Images
 
-Route::get('/img/{path}', [ImagesController::class, 'show'])->where('path', '.*');
-
-// 500 error
-
-Route::get('500', function () {
-    // Force debug mode for this endpoint in the demo environment
-    if (App::environment('demo')) {
-        Config::set('app.debug', true);
-    }
-
-    echo $fail;
-});
+Route::get('/img/{path}', [ImagesController::class, 'show'])
+    ->where('path', '.*')
+    ->name('image');

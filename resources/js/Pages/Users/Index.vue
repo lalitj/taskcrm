@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="mb-8 font-bold text-3xl">Users</h1>
+     
     <div class="mb-6 flex justify-between items-center">
       <search-filter v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
         <label class="block text-gray-700">Role:</label>
@@ -16,10 +17,14 @@
           <option value="only">Only Trashed</option>
         </select>
       </search-filter>
+       <inertia-link class="btn-indigo" href="/experiences">Experience</inertia-link>
+     &nbsp;&nbsp;&nbsp;&nbsp;
       <inertia-link class="btn-indigo" :href="route('users.create')">
         <span>Create</span>
         <span class="hidden md:inline">User</span>
-      </inertia-link>
+      </inertia-link>&nbsp;&nbsp;&nbsp;&nbsp;
+     <inertia-link class="btn-indigo" href="/contacts">Contacts</inertia-link>
+    
     </div>
     <div class="bg-white rounded-md shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
@@ -27,6 +32,7 @@
           <th class="px-6 pt-6 pb-4">Name</th>
           <th class="px-6 pt-6 pb-4">Email</th>
           <th class="px-6 pt-6 pb-4" colspan="2">Role</th>
+                                  
         </tr>
         <tr v-for="user in users" :key="user.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
           <td class="border-t">
@@ -46,6 +52,7 @@
               {{ user.owner ? 'Owner' : 'User' }}
             </inertia-link>
           </td>
+          
           <td class="border-t w-px">
             <inertia-link class="px-4 flex items-center" :href="route('users.edit', user.id)" tabindex="-1">
               <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
@@ -57,6 +64,7 @@
         </tr>
       </table>
     </div>
+     
   </div>
 </template>
 
@@ -76,8 +84,8 @@ export default {
   },
   layout: Layout,
   props: {
-    users: Array,
     filters: Object,
+    users: Array,
   },
   data() {
     return {
@@ -90,11 +98,10 @@ export default {
   },
   watch: {
     form: {
-      handler: throttle(function() {
-        let query = pickBy(this.form)
-        this.$inertia.replace(this.route('users', Object.keys(query).length ? query : { remember: 'forget' }))
-      }, 150),
       deep: true,
+      handler: throttle(function() {
+        this.$inertia.get(this.route('users'), pickBy(this.form), { preserveState: true })
+      }, 150),
     },
   },
   methods: {
